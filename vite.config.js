@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://diplomback-2.onrender.com',
+        target: 'https://backmy-o8lb.onrender.com',
         changeOrigin: true,
       }
     }
