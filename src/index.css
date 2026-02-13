@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
-  background-color: #000;
+  background: #000;
   color: #fff;
+  overscroll-behavior: none;          /* убирает "резиновый" скролл на iOS */
 }
 
 @keyframes fadeIn {
@@ -24,4 +26,85 @@ body {
 
 .g-text-input__content{
   border-width:0
+}
+
+
+:root {
+  --max-content-width: 1400px;
+  --primary: #ffcc00;
+  --primary-dark: #e0b300;
+  --bg-dark: #0a0a0a;
+  --bg-secondary: #111111;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'PT Sans', system-ui, -apple-system, sans-serif;
+  background: #000;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container-centered {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Gravity UI + Tailwind совместимость */
+[data-uikit-theme="dark"] {
+  --g-color-base-background: #000000;
+  --g-color-base-background-hover: #1a1a1a;
+  --g-color-base-positive: #ffcc00;
+  --g-color-base-positive-hover: #e0b300;
+}
+
+/* Улучшенные карточки */
+.movie-card {
+  transition: all 0.25s ease;
+  transform: translateY(0);
+}
+.movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(255, 204, 0, 0.15);
+}
+
+/* Табы для мобильных */
+.tab-scroll {
+  @apply flex overflow-x-auto gap-1 pb-3 no-scrollbar snap-x snap-mandatory;
+}
+.tab-scroll button {
+  @apply px-5 py-3 text-base font-medium whitespace-nowrap border-b-2 transition-all snap-start;
+}
+
+/* Тени и градиенты */
+.gradient-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+}
+
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none;          /* IE и Edge */
+    scrollbar-width: none;             /* Firefox */
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;                     /* Chrome, Safari, Opera */
+  }
 }

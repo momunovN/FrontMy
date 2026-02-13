@@ -17,44 +17,27 @@ export default function Home() {
     const fetchMovies = async () => {
       try {
         const [popRes, topRes] = await Promise.all([
-          fetch(
-            `${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=ru-RU&page=1`
-          ),
-          fetch(
-            `${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}&language=ru-RU&page=1`
-          ),
+          fetch(`${TMDB_BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=ru-RU&page=1`),
+          fetch(`${TMDB_BASE_URL}/movie/top_rated?api_key=${TMDB_API_KEY}&language=ru-RU&page=1`),
         ]);
 
         const popData = await popRes.json();
         const topData = await topRes.json();
 
-        // Добавляем полный URL постера
-        const formattedPopular = popData.results.map((movie) => ({
-          ...movie,
-          posterUrlPreview: movie.poster_path
-            ? `${IMAGE_BASE_URL}${movie.poster_path}`
-            : null,
-          nameRu: movie.title,
-          ratingKinopoisk: movie.vote_average,
-          year: movie.release_date?.split("-")[0] || "—",
-          genres: movie.genre_ids ? [] : [], // жанры можно добавить отдельным запросом, если нужно
-        }));
+        const formatted = (items) =>
+          items.map((m) => ({
+            ...m,
+            posterUrlPreview: m.poster_path ? `${IMAGE_BASE_URL}${m.poster_path}` : null,
+            nameRu: m.title,
+            ratingKinopoisk: m.vote_average,
+            year: m.release_date?.split("-")[0] || "—",
+          }));
 
-        const formattedTop = topData.results.map((movie) => ({
-          ...movie,
-          posterUrlPreview: movie.poster_path
-            ? `${IMAGE_BASE_URL}${movie.poster_path}`
-            : null,
-          nameRu: movie.title,
-          ratingKinopoisk: movie.vote_average,
-          year: movie.release_date?.split("-")[0] || "—",
-        }));
-
-        setPopular(formattedPopular);
-        setTopRated(formattedTop);
-        setLoading(false);
+        setPopular(formatted(popData.results));
+        setTopRated(formatted(topData.results));
       } catch (err) {
         console.error(err);
+      } finally {
         setLoading(false);
       }
     };
@@ -62,36 +45,39 @@ export default function Home() {
     fetchMovies();
   }, []);
 
-  const settings = {
+  const sliderSettings = {
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 5,
-    slidesToScroll: 5,
+    slidesToScroll: 1,
+    swipeToSlide: true,
     arrows: true,
     responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 4 } },
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 640, settings: { slidesToShow: 1 } },
+      { breakpoint: 1280, settings: { slidesToShow: 4, slidesToScroll: 3 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3, slidesToScroll: 2 } },
+      { breakpoint: 768,  settings: { slidesToShow: 2.4, slidesToScroll: 2, arrows: false } },
+      { breakpoint: 480,  settings: { slidesToShow: 1.4, slidesToScroll: 1, arrows: false } },
     ],
   };
 
- if (loading) {
+  if (loading) {
     return (
-      <div className="w-full py-32 text-center">
-        <h2 className="text-4xl font-bold">Загрузка лучших фильмов...</h2>
+      <div className="container-centered py-20 text-center text-2xl sm:text-3xl">
+        Загрузка фильмов...
       </div>
     );
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
-      <section className="mb-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Популярное сейчас</h2>
-        <Slider {...settings}>
-          {popular.slice(0, 20).map((movie) => (
-            <div key={movie.id} className="px-2">
+    <div className="container-centered py-8 sm:py-12">
+      <section className="mb-12 sm:mb-16">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 sm:mb-10">
+          Популярное сейчас
+        </h2>
+        <Slider {...sliderSettings} className="movie-slider">
+          {popular.slice(0, 15).map((movie) => (
+            <div key={movie.id} className="px-2 sm:px-3">
               <MovieCard movie={movie} size="small" />
             </div>
           ))}
@@ -99,10 +85,12 @@ export default function Home() {
       </section>
 
       <section>
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-10">Топ рейтинга</h2>
-        <Slider {...settings}>
-          {topRated.slice(0, 20).map((movie) => (
-            <div key={movie.id} className="px-2">
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-6 sm:mb-10">
+          Топ рейтинга
+        </h2>
+        <Slider {...sliderSettings} className="movie-slider">
+          {topRated.slice(0, 15).map((movie) => (
+            <div key={movie.id} className="px-2 sm:px-3">
               <MovieCard movie={movie} size="small" />
             </div>
           ))}

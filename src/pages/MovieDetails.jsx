@@ -23,6 +23,9 @@ const POSTER_BASE_URL = "https://image.tmdb.org/t/p/w780";
 const ACTOR_IMAGE_BASE = "https://image.tmdb.org/t/p/w185";
 const YOUTUBE_BASE = "https://www.youtube.com/embed/";
 
+
+
+
 export default function MovieDetails() {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -33,7 +36,7 @@ export default function MovieDetails() {
   const [activeTab, setActiveTab] = useState('about');
   const [formData, setFormData] = useState({ name: '', seats: 1 });
   const [bookingStatus, setBookingStatus] = useState('');
-
+  
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -61,6 +64,8 @@ export default function MovieDetails() {
 
     fetchDetails();
   }, [id]);
+
+  
 
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -273,7 +278,7 @@ export default function MovieDetails() {
       `}</style>
 
       {/* Кнопка "Назад" */}
-      <Link to="/movies" className="inline-flex items-center gap-3 mb-10">
+      <Link to="/" className="inline-flex items-center gap-3 mb-10">
         <Icon data={ArrowLeft} size={24} />
         <Text variant="header-1">Назад к фильмам</Text>
       </Link>
