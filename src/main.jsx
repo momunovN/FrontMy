@@ -8,7 +8,7 @@ import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 import axios from 'axios';
 import { Analytics } from '@vercel/analytics/react';
-
+import { SpeedInsights } from '@vercel/speed-insights/react';
 // Определяем API URL в зависимости от окружения
 let API_URL;
 
