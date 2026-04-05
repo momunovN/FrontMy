@@ -159,7 +159,7 @@ export default function MovieDetails() {
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-8">
                 {credits.cast.slice(0, 16).map(actor => (
                   <div key={actor.id} className="text-center">
-                    <Card view="raised" className="overflow-hidden mb-3">
+                    <Card view="raised" className="overflow-hidden mb-3">                                                                                                                                                     
                       <img
                         src={
                           actor.profile_path
@@ -295,7 +295,7 @@ export default function MovieDetails() {
           </Card>
         </div>
 
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 gap-2">
           <Text variant="display-3" className="mb-8 text-center lg:text-left">
             {movie.title}
           </Text>

@@ -7,6 +7,7 @@ import { configure } from '@gravity-ui/uikit';
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 import axios from 'axios';
+import { Analytics } from '@vercel/analytics/react';
 
 // Определяем API URL в зависимости от окружения
 let API_URL;
@@ -71,6 +72,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme="dark">
       <App />
+      <Analytics />
+      <SpeedInsights />
     </ThemeProvider>
   </React.StrictMode>
 );
